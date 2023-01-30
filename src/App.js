@@ -2,9 +2,10 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import GlobalStyle from './styles/globalStyle';
 import GlobalContext from './contexts/globalContext';
+import HeaderNFooterContext from './contexts/headerNfooterContex';
 import styled from 'styled-components';
 
-import SignIn from './pages/SignIn/index.js';
+import SignIn from './pages/SignIn/SignIn.js';
 import Home from './pages/home/Home';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -12,37 +13,61 @@ import Trades from './pages/trades/Trades';
 import Strategies from './pages/strategies/Strategies';
 import Menu from './components/Menu/Menu';
 import { useState } from 'react';
+import { UserProvider } from './contexts/UserContext';
+import SignUp from "./pages/Signup/Signup";
 
 function App() {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
+  const [header, setHeader] = useState(true);
+  const [noHeader, setNoHeader] = useState(false);
+  const [footer, setFooter] = useState(true);
+  const [noFooter, setNoFooter] = useState(false);
   const [date, setDate] = useState(null);
   const [dateTest, setDateTest] = useState({
     startDate: '',
-    endDate: ''
+    endDate: '',
   });
   return (
     <>
       <GlobalStyle />
-      <GlobalContext.Provider value={{ menuIsOpen, setMenuIsOpen, date, setDate, dateTest, setDateTest }}>
-        <BrowserRouter>
-          <HeaderWrapper>
-            {menuIsOpen ? <Menu /> : <></>}
+      <UserProvider>
+        <GlobalContext.Provider
+          value={{
+            menuIsOpen,
+            setMenuIsOpen,
+            date,
+            setDate,
+            dateTest,
+            setDateTest,
+            noHeader,
+            noFooter,
+          }}
+        >
+          <BrowserRouter>
+            <HeaderWrapper>
+              {menuIsOpen ? <Menu /> : <></>}
+              <Header />
+            </HeaderWrapper>
 
-            <Header />
-          </HeaderWrapper>
+            <Routes>
+              <Route path="/sign-in" element={<SignIn />} />
+              <Route path="/sign-up" element={<SignUp />} />
+            </Routes>
 
-          <Routes>
-            <Route path="/sign-in" element={<SignIn />} />
-            <Route path="/" element={<Home />} />
-            <Route path="/trades" element={<Trades />} />
-            <Route path="/strategies" element={<Strategies />} />
-          </Routes>
+            <HeaderNFooterContext.Provider value={{ header, footer }}>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/trades" element={<Trades />} />
+                <Route path="/strategies" element={<Strategies />} />
+              </Routes>
+            </HeaderNFooterContext.Provider>
 
-          <FooterWrapper>
-            <Footer />
-          </FooterWrapper>
-        </BrowserRouter>
-      </GlobalContext.Provider>
+            <FooterWrapper>
+              <Footer />
+            </FooterWrapper>
+          </BrowserRouter>
+        </GlobalContext.Provider>
+      </UserProvider>
     </>
   );
 }
@@ -61,9 +86,9 @@ const HeaderWrapper = styled.div`
 const FooterWrapper = styled.div`
   width: 100%;
   min-height: 100px;
-  background: linear-gradient(106.85deg, rgba(32, 38, 47, 0.8) -3.52%, rgba(94, 94, 94, 0.184) 106.68%);
-  box-shadow: 0px -40px 100px #171717;
-  backdrop-filter: blur(50px);
+  background: #131820;
+  /* box-shadow: 0px -2px 200px #fff;
+  backdrop-filter: blur(0px); */
 
   position: fixed;
   bottom: 0;

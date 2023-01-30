@@ -51,9 +51,9 @@ a {
 	color: inherit;
 	text-decoration:none
   }
-button{
+/* button{
 	all:unset;
-}
+} */
 input{
 	color: #666666;
 }

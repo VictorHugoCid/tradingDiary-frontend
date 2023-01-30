@@ -5,9 +5,16 @@ import { SlGraph } from 'react-icons/sl';
 import { BsFillBarChartFill } from 'react-icons/bs';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import GlobalContext from '../../contexts/globalContext';
 
 export default function Footer() {
   const navigate = useNavigate();
+
+  const { noFooter } = useContext(GlobalContext);
+
+  if (!noFooter) return <></>;
+
   return (
     <Wrapper>
       <AiFillHome
@@ -51,7 +58,6 @@ const Wrapper = styled.div`
   justify-content: space-around;
 
   padding: 30px 0 0 0;
-  
 
   position: relative;
 `;

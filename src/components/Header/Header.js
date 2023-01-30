@@ -1,10 +1,14 @@
 import styled from 'styled-components';
 import { SlMenu } from 'react-icons/sl';
 import GlobalContext from '../../contexts/globalContext';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
+import HeaderNFooterContext from '../../contexts/headerNfooterContex';
 
 export default function Header() {
-  const { menuIsOpen, setMenuIsOpen } = useContext(GlobalContext);
+  const { menuIsOpen, setMenuIsOpen, noHeader } = useContext(GlobalContext);
+
+  if (!noHeader) return <></>;
+
   return (
     <>
       <HeaderWrapper>

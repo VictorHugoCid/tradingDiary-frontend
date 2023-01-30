@@ -4,8 +4,18 @@ import styled from 'styled-components';
 import Resumo from '../../components/Resumo/Resumo';
 
 import { Chart } from 'react-google-charts';
+import { useContext } from 'react';
+import GlobalContext from '../../contexts/globalContext';
+import HeaderNFooterContext from "../../contexts/headerNfooterContex";
 
 export default function Home() {
+  const { header, setHeader } = useContext(HeaderNFooterContext);
+  const { footer, setFooter } = useContext(HeaderNFooterContext);
+  console.log('header',header)
+  console.log('footer',footer)
+  // setHeader(true);
+  // setFooter(true);
+
   // const data = [
   //   ['Year', 'Sales'],
   //   ['2013', 1000],
