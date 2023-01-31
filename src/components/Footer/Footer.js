@@ -9,11 +9,10 @@ import { useContext } from 'react';
 import GlobalContext from '../../contexts/globalContext';
 
 export default function Footer() {
+  const { showFooter } = useContext(GlobalContext);
   const navigate = useNavigate();
 
-  const { noFooter } = useContext(GlobalContext);
-
-  if (!noFooter) return <></>;
+  if (!showFooter) return <></>;
 
   return (
     <Wrapper>
@@ -53,9 +52,17 @@ export default function Footer() {
 }
 
 const Wrapper = styled.div`
+  position: fixed;
+  z-index: 1;
+  bottom: 100px;
+  min-height: 100px;
+
+  /* background-color: red; */
+  background-color: #131820;
   color: white;
   display: flex;
   justify-content: space-around;
+
 
   padding: 30px 0 0 0;
 

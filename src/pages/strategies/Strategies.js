@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import StrategyUnit from '../../components/StrategyUnit/StrategyUnit';
+import ShowHeaderNFooter from "../../utils/showHeaderNFooter";
 
 export default function Strategies() {
   const strategies = [
@@ -19,6 +20,7 @@ export default function Strategies() {
   
   return (
     <StrategiesWrapper>
+      <ShowHeaderNFooter/>
       {strategies.map((value) => {
         return <StrategyUnit strategy={value} />;
       })}

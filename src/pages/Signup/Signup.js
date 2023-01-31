@@ -5,7 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 import UserContext from '../../contexts/UserContext';
-import useSignIn from '../../hooks/api/useSignIn';
+import useSignUp from "../../hooks/api/useSignUp";
+
 
 // import GitHubButton from './gitHubButton';
 
@@ -16,7 +17,7 @@ export default function SignUp() {
     secondPassword:''
   });
 
-  const { loadingSignIn, signIn } = useSignIn();
+  const { loadingSignUp, signUp } = useSignUp();
 
   const { setUserData } = useContext(UserContext);
 
@@ -33,10 +34,10 @@ export default function SignUp() {
     event.preventDefault();
 
     try {
-      const userData = await signIn(form.email, form.password);
+      const userData = await signUp(form.email, form.password);
       setUserData(userData);
       toast('Login realizado com sucesso!');
-      navigate('/home');
+      navigate('/sign-in');
     } catch (err) {
       toast('Não foi possível fazer o login!');
     }
@@ -57,7 +58,7 @@ export default function SignUp() {
             value={form.email}
             onChange={(e) => handleForm(e)}
             required
-            disabled={loadingSignIn}
+            disabled={loadingSignUp}
           />
           <Input
             label="Senha"
@@ -68,7 +69,7 @@ export default function SignUp() {
             value={form.password}
             onChange={(e) => handleForm(e)}
             required
-            disabled={loadingSignIn}
+            disabled={loadingSignUp}
           />
 
           <Input
@@ -80,10 +81,10 @@ export default function SignUp() {
             value={form.secondPassword}
             onChange={(e) => handleForm(e)}
             required
-            disabled={loadingSignIn}
+            disabled={loadingSignUp}
           />
 
-          <Button type="submit" fullWidth disabled={loadingSignIn}>
+          <Button type="submit" fullWidth disabled={loadingSignUp}>
             Entrar
           </Button>
           <LinkSignUp onClick={() => navigate('/sign-in')}>Já tem uma conta? Faça o login aqui</LinkSignUp>

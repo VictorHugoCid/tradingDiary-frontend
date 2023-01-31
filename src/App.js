@@ -14,14 +14,18 @@ import Strategies from './pages/strategies/Strategies';
 import Menu from './components/Menu/Menu';
 import { useState } from 'react';
 import { UserProvider } from './contexts/UserContext';
-import SignUp from "./pages/Signup/Signup";
+import SignUp from './pages/Signup/Signup';
 
 function App() {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
-  const [header, setHeader] = useState(true);
-  const [noHeader, setNoHeader] = useState(false);
-  const [footer, setFooter] = useState(true);
-  const [noFooter, setNoFooter] = useState(false);
+  // const [header, setHeader] = useState(true);
+  // const [noHeader, setNoHeader] = useState(false);
+  // const [footer, setFooter] = useState(true);
+  // const [noFooter, setNoFooter] = useState(false);
+
+  const [showFooter, setShowFooter] = useState(false);
+  const [showHeader, setShowHeader] = useState(false);
+
   const [date, setDate] = useState(null);
   const [dateTest, setDateTest] = useState({
     startDate: '',
@@ -39,32 +43,27 @@ function App() {
             setDate,
             dateTest,
             setDateTest,
-            noHeader,
-            noFooter,
+            showFooter,
+            setShowFooter,
+            showHeader,
+            setShowHeader,
           }}
         >
           <BrowserRouter>
-            <HeaderWrapper>
-              {menuIsOpen ? <Menu /> : <></>}
-              <Header />
-            </HeaderWrapper>
+            {menuIsOpen ? <Menu /> : <></>}
+            <Header />
 
+            {/* <HeaderNFooterContext.Provider value={{ header, setHeader, footer, setFooter }}> */}
             <Routes>
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/sign-up" element={<SignUp />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/trades" element={<Trades />} />
+              <Route path="/strategies" element={<Strategies />} />
             </Routes>
+            {/* </HeaderNFooterContext.Provider> */}
 
-            <HeaderNFooterContext.Provider value={{ header, footer }}>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/trades" element={<Trades />} />
-                <Route path="/strategies" element={<Strategies />} />
-              </Routes>
-            </HeaderNFooterContext.Provider>
-
-            <FooterWrapper>
-              <Footer />
-            </FooterWrapper>
+            <Footer />
           </BrowserRouter>
         </GlobalContext.Provider>
       </UserProvider>
@@ -93,7 +92,7 @@ const FooterWrapper = styled.div`
   position: fixed;
   bottom: 0;
 
-  z-index: 0;
+  z-index: 1;
 `;
 
 export default App;

@@ -5,10 +5,10 @@ import { useContext, useEffect } from 'react';
 import HeaderNFooterContext from '../../contexts/headerNfooterContex';
 
 export default function Header() {
-  const { menuIsOpen, setMenuIsOpen, noHeader } = useContext(GlobalContext);
+  const { menuIsOpen, setMenuIsOpen, showHeader } = useContext(GlobalContext);
 
-  if (!noHeader) return <></>;
-
+  if(!showHeader)return <></>;
+  
   return (
     <>
       <HeaderWrapper>
@@ -32,6 +32,7 @@ const HeaderWrapper = styled.div`
   color: #f6f6f6;
 
   position: fixed;
+  z-index: 2;
   top: 0;
 `;
 

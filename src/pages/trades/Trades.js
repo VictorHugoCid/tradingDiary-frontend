@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import NativePickers from '../../components/Calendar/Calendar';
 import TradeUnit from '../../components/TradeUnit/TradeUnit';
 import GlobalContext from '../../contexts/globalContext';
+import ShowHeaderNFooter from "../../utils/showHeaderNFooter";
 
 export default function Trades() {
   const { dateTest, setDateTest } = useContext(GlobalContext);
@@ -59,6 +60,7 @@ export default function Trades() {
 
   return (
     <TradesWrapper>
+      <ShowHeaderNFooter/>
       <NativePickers />
       <Button onClick={()=>handleFiltrar()}>Filtrar</Button>
       {mandou ? (
@@ -79,7 +81,6 @@ export default function Trades() {
 const TradesWrapper = styled.div`
   width: 100%;
   min-height: 100vh;
-  height: 100%;
   padding-top: 100px;
   padding-bottom: 100px;
 
