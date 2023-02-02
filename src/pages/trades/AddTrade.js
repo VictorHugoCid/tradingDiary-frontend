@@ -1,8 +1,17 @@
-import { useState } from 'react';
+import dayjs from 'dayjs';
+import { useContext, useState } from 'react';
+import { toast } from 'react-toastify';
 import styled from 'styled-components';
+import GlobalContext from '../../contexts/globalContext';
+import useToken from '../../hooks/useToken';
+
+import * as tradeApi from '../../services/tradeApi';
 
 export default function AddTrade() {
-  // criar o sombreado
+  const { setShowAddTrade } = useContext(GlobalContext);
+
+  // NAO SEI SE PRECISA DO TOKEN
+  const token = useToken();
 
   const [form, setForm] = useState({
     entryPrice: '',
@@ -18,29 +27,32 @@ export default function AddTrade() {
 
   async function submit(event) {
     event.preventDefault();
-    // setSumir a Box
 
-    // try {
-
-    //   toast('Login realizado com sucesso!');
-
-    // } catch (err) {
-    //   toast('Deu ruim aí!');
-    // }
+    try {
+      const trade = tradeApi.postTrade(token, form);
+      toast('Trade adicionado');
+    } catch (err) {
+      toast('Deu ruim aí!');
+    }
   }
 
   function handleForm(e) {
-    setForm({ ...form, [e.target.name]: [e.target.value] });
+    setForm({ 
+      ...form, 
+      [e.target.name]: e.target.value, 
+    });
+
     return;
   }
+
   return (
     <AddTradeWrapper>
-      <Veil></Veil>
+      <Veil onClick={() => setShowAddTrade(false)}></Veil>
       <Box>
         <Form onSubmit={submit}>
           <Input
-            label="E-mail"
             type="number"
+            step="0.01"
             placeholder="Preço de entrada"
             name="entryPrice"
             fullWidth
@@ -50,8 +62,8 @@ export default function AddTrade() {
             // disabled={loadingSignUp}
           />
           <Input
-            label="Senha"
             type="number"
+            step="0.01"
             placeholder="Preço de saída"
             name="exitPrice"
             fullWidth
@@ -62,19 +74,17 @@ export default function AddTrade() {
           />
 
           <Input
-            label="Senha"
             type="date"
-            placeholder="Dia"
             name="day"
+            placeholder="dd/mm/yyyy"
             fullWidth
             value={form.day}
             onChange={(e) => handleForm(e)}
-            required
+            // required
             // disabled={loadingSignUp}
           />
 
           <Input
-            label="Senha"
             type="time"
             placeholder="hora da entrada"
             name="entryTime"
@@ -85,7 +95,6 @@ export default function AddTrade() {
             // disabled={loadingSignUp}
           />
           <Input
-            label="Senha"
             type="time"
             placeholder="hora da saída"
             name="exitTime"
@@ -97,9 +106,8 @@ export default function AddTrade() {
           />
 
           <Input
-            label="Senha"
-            type="number"
-            placeholder="Número de contratos"
+            type="text"
+            placeholder="Ativo"
             name="stock"
             fullWidth
             value={form.stock}
@@ -107,9 +115,18 @@ export default function AddTrade() {
             required
             // disabled={loadingSignUp}
           />
+          <Input
+            type="number"
+            placeholder="Número de contratos"
+            name="amount"
+            fullWidth
+            value={form.amount}
+            onChange={(e) => handleForm(e)}
+            required
+            // disabled={loadingSignUp}
+          />
 
           <Input
-            label="Senha"
             type="text"
             placeholder="Estratégia"
             name="strategy"
@@ -121,10 +138,9 @@ export default function AddTrade() {
           />
 
           <Input
-            label="Senha"
             type="text"
             placeholder="Compra ou venda?"
-            name="exitbuyOrSellTime"
+            name="buyOrSell"
             fullWidth
             value={form.buyOrSell}
             onChange={(e) => handleForm(e)}
@@ -163,6 +179,7 @@ const AddTradeWrapper = styled.div`
   position: fixed;
   z-index: 3;
 `;
+
 const Box = styled.div`
   position: fixed;
   z-index: 5;
@@ -177,14 +194,40 @@ const Box = styled.div`
 `;
 
 const Form = styled.form`
+  min-height: inherit;
+  height: 100%;
+  /* background-color: red; */
+
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
 `;
+// const Test = styled.div`
+//   height: 100%;
+//   background-color: green;
+//   display: flex;
+//   flex-direction: column;
+//   align-items: center;
+//   justify-content: center;
+
+// `;
 
 const Input = styled.input`
   height: 40px;
   max-width: 300px;
-  margin-bottom: 10px;
+  min-width: 150px;
+  /* margin-bottom: 10px; */
 `;
 
-const Button = styled.button``;
+const Button = styled.button`
+  height: 40px;
+  width: 120px;
+  /* margin-top: 15px; */
+  border-radius: 5px;
+
+  background-color: #131820;
+  color: grey;
+
+  cursor: pointer;
+`;

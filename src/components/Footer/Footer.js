@@ -9,15 +9,15 @@ import { useContext } from 'react';
 import GlobalContext from '../../contexts/globalContext';
 
 export default function Footer() {
-  const { showFooter } = useContext(GlobalContext);
+  const { showFooter, showAddTrade, setShowAddTrade } = useContext(GlobalContext);
   const navigate = useNavigate();
 
   if (!showFooter) return <></>;
 
   return (
-    <Wrapper>
+    <FooterWrapper>
       <AiFillHome
-        onClick={() => navigate('/')}
+        onClick={() => navigate('/home')}
         size="40px"
         style={{
           cursor: 'pointer',
@@ -44,20 +44,19 @@ export default function Footer() {
           cursor: 'pointer',
         }}
       />
-      <Circle onClick={() => navigate('/trades')}>
+      <Circle onClick={() => setShowAddTrade(true)}>
         <GoPlus size="50px" />
       </Circle>
-    </Wrapper>
+    </FooterWrapper>
   );
 }
 
-const Wrapper = styled.div`
-  position: fixed;
-  z-index: 1;
-  bottom: 100px;
+const FooterWrapper = styled.div`
+  
+  width: 100%;
   min-height: 100px;
 
-  /* background-color: red; */
+  background-color: red;
   background-color: #131820;
   color: white;
   display: flex;
@@ -66,7 +65,10 @@ const Wrapper = styled.div`
 
   padding: 30px 0 0 0;
 
-  position: relative;
+  position: fixed;
+  bottom: 0;
+
+  z-index: 1;
 `;
 
 const Circle = styled.div`

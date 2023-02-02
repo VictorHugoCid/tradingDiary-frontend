@@ -1,8 +1,7 @@
 import styled from 'styled-components';
 import { SlMenu } from 'react-icons/sl';
 import GlobalContext from '../../contexts/globalContext';
-import { useContext, useEffect } from 'react';
-import HeaderNFooterContext from '../../contexts/headerNfooterContex';
+import { useContext } from 'react';
 
 export default function Header() {
   const { menuIsOpen, setMenuIsOpen, showHeader } = useContext(GlobalContext);

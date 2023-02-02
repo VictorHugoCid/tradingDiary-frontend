@@ -35,7 +35,7 @@ const TradeWrapper = styled.div`
   height: ${(props) => (props.isOpen ? '300px' : '250px')};
 
   border-radius: 15px;
-  margin-top: 50px;
+  margin-bottom: 50px;
 
   display: flex;
   flex-direction: column;

@@ -12,7 +12,7 @@ import AddTrade from '../trades/AddTrade';
 import Header from '../../components/Header/Header';
 
 export default function Home() {
-  const { setShowHeader, setShowFooter } = useContext(GlobalContext);
+  const { setShowHeader, setShowFooter, showAddTrade } = useContext(GlobalContext);
   setShowHeader(true);
   setShowFooter(true);
 
@@ -43,7 +43,7 @@ export default function Home() {
 
   return (
     <>
-      <AddTrade/>
+      {showAddTrade ? <AddTrade /> : <></>}
       <HomeWrapper>
         <Resumo />
         {/* <GraphWrapper>

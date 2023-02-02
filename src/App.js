@@ -25,6 +25,8 @@ function App() {
 
   const [showFooter, setShowFooter] = useState(false);
   const [showHeader, setShowHeader] = useState(false);
+  const [showAddTrade, setShowAddTrade] = useState(false);
+  const [showAddStrategy, setShowAddStrategy] = useState(false);
 
   const [date, setDate] = useState(null);
   const [dateTest, setDateTest] = useState({
@@ -47,6 +49,10 @@ function App() {
             setShowFooter,
             showHeader,
             setShowHeader,
+            showAddTrade,
+            setShowAddTrade,
+            showAddStrategy,
+            setShowAddStrategy,
           }}
         >
           <BrowserRouter>
@@ -71,28 +77,28 @@ function App() {
   );
 }
 
-const HeaderWrapper = styled.div`
-  width: 100%;
-  height: 100px;
+// const HeaderWrapper = styled.div`
+//   width: 100%;
+//   height: 100px;
 
-  background-color: #131820;
+//   background-color: #131820;
 
-  position: fixed;
-  top: 0;
-  z-index: 1;
-`;
+//   position: fixed;
+//   top: 0;
+//   z-index: 1;
+// `;
 
-const FooterWrapper = styled.div`
-  width: 100%;
-  min-height: 100px;
-  background: #131820;
-  /* box-shadow: 0px -2px 200px #fff;
-  backdrop-filter: blur(0px); */
+// const FooterWrapper = styled.div`
+//   width: 100%;
+//   min-height: 100px;
+//   background: #131820;
+//   /* box-shadow: 0px -2px 200px #fff;
+//   backdrop-filter: blur(0px); */
 
-  position: fixed;
-  bottom: 0;
+//   position: fixed;
+//   bottom: 0;
 
-  z-index: 1;
-`;
+//   z-index: 1;
+// `;
 
 export default App;
