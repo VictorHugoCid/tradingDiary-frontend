@@ -27,7 +27,7 @@ export default function AddTrade() {
 
   async function submit(event) {
     event.preventDefault();
-
+    
     try {
       const trade = tradeApi.postTrade(token, form);
       toast('Trade adicionado');

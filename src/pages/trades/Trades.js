@@ -1,77 +1,47 @@
-import { makeStyles } from "@material-ui/styles";
-import dayjs from "dayjs";
+import dayjs from 'dayjs';
 import { useContext, useState } from 'react';
+import { toast } from 'react-toastify';
 import styled from 'styled-components';
 import NativePickers from '../../components/Calendar/Calendar';
 import TradeUnit from '../../components/TradeUnit/TradeUnit';
 import GlobalContext from '../../contexts/globalContext';
 import AddTrade from './AddTrade';
+import * as tradeApi from '../../services/tradeApi';
+import useToken from '../../hooks/useToken';
 
 export default function Trades() {
   const { dateTest, setDateTest, setShowHeader, setShowFooter, showAddTrade } = useContext(GlobalContext);
   setShowHeader(true);
   setShowFooter(true);
-  // console.log('start', dateTest.startDate);
-  // console.log('end', dateTest.endDate);
+
+  const token = useToken();
 
   const [mandou, setMandou] = useState(false);
+  const [trades, setTrades] = useState([])
 
-  function handleFiltrar() {
-    console.log('inicio',dayjs(dateTest.startDate.$d).format('DD/MM/YYYY'))
-    console.log('fim',dayjs(dateTest.endDate.$d).format('DD/MM/YYYY'))
-    // console.log(dateTest)
+  async function handleFiltrar() {
 
     if (dateTest.startDate.length === 0 || dateTest.endDate.length === 0) {
       alert('Selecione as datas');
       return;
     }
-    setMandou(true);
     // função de requisição
+    const body = {
+      startDate: dayjs(dateTest.startDate).format('YYYY/MM/DD'),
+      endDate: dayjs(dateTest.endDate).format('YYYY/MM/DD')
+    }
+    try {
+      const tradesBack = await tradeApi.getTrades(token, body);
+      console.log("🚀🚀🚀 ~ file: Trades.js:35 ~ handleFiltrar ~ tradesBack", tradesBack)
+      // setTrades(tradesBack)
+      toast('Trade adicionado');
+    } catch (err) {
+      toast('Deu ruim aí!');
+    }
+    setMandou(true);
   }
 
-  const trades = [
-    {
-      buyOrSell: 'Buy',
-      time: '23/01 09:32',
-      stock: 'win',
-      amount: 1,
-      gainOrLoss: 'gain',
-      entryPrice: 112150,
-      exitPrice: 112300,
-      points: 150,
-      value: 120,
-    },
-    {
-      buyOrSell: 'Buy',
-      time: '23/01 09:32',
-      stock: 'win',
-      amount: 3,
-      gainOrLoss: 'loss',
-      entryPrice: 112350,
-      exitPrice: 112150,
-      points: 200,
-      value: 120,
-    },
-    {
-      buyOrSell: 'Buy',
-      time: '23/01 09:32',
-      stock: 'win',
-      amount: 3,
-      gainOrLoss: 'loss',
-      entryPrice: 112350,
-      exitPrice: 112150,
-      points: 200,
-      value: 120,
-    },
-  ];
-
-  // const useStyles = makeStyles({
-  //   root: {
-  //     marginTop: '150px',
-  //   },
-  // });
-
-  // const classes = useStyles();
+  const array = []
 
   return (
     <TradesWrapper>
@@ -80,9 +50,9 @@ export default function Trades() {
       <NativePickers />
 
       <Button onClick={() => handleFiltrar()}>Filtrar</Button>
-      {mandou ? (
+      {array.length === 0 ? (
         <>
-          {trades.map((value, index) => {
+          {array.map((value, index) => {
             return <TradeUnit key={index} trade={value} />;
           })}
           <Line></Line>
@@ -132,17 +102,16 @@ const Line = styled.div`
   margin-top: 150px;
 `;
 
-const Warning = styled.div` 
-width: 100%;
-height: auto;
-background-color: #131820;
+const Warning = styled.div`
+  width: 100%;
+  height: auto;
+  background-color: #131820;
 
-font-size: 30px;
+  font-size: 30px;
 
-display: flex;
-justify-content: center;
+  display: flex;
+  justify-content: center;
 
-
-position: absolute;
-top: 50%;
+  position: absolute;
+  top: 50%;
 `;
