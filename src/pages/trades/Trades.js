@@ -26,6 +26,25 @@ export default function Trades() {
       return;
     }
     // função de requisição
+
+    // const trade = {
+    //   amount: 2,
+    //   buyOrSell: "sell",
+    //   createdAt: "2023-02-02T19:16:13.010Z",
+    //   day: "2023-01-03T00:00:00.000Z",
+    //   entryPrice: 5409,
+    //   entryTime: "09:22",
+    //   exitPrice: 5395,
+    //   exitTime: "09:29",
+    //   id: 13,
+    //   isGain: true,
+    //   points: 14,
+    //   stock: "wdo",
+    //   strategyId: 1,
+    //   updatedAt: "2023-02-02T19:16:13.010Z",
+    //   userId: 1,
+    //   value: 280,
+    // }
     const body = {
       startDate: dayjs(dateTest.startDate).format('YYYY/MM/DD'),
       endDate: dayjs(dateTest.endDate).format('YYYY/MM/DD')
@@ -33,7 +52,7 @@ export default function Trades() {
     try {
       const tradesBack = await tradeApi.getTrades(token, body);
       console.log("🚀🚀🚀 ~ file: Trades.js:35 ~ handleFiltrar ~ tradesBack", tradesBack)
-      // setTrades(tradesBack)
+      setTrades(tradesBack)
       toast('Trade adicionado');
     } catch (err) {
       toast('Deu ruim aí!');
@@ -50,9 +69,9 @@ export default function Trades() {
       <NativePickers />
 
       <Button onClick={() => handleFiltrar()}>Filtrar</Button>
-      {array.length === 0 ? (
+      {trades.length !== 0 ? (
         <>
-          {array.map((value, index) => {
+          {trades.map((value, index) => {
             return <TradeUnit key={index} trade={value} />;
           })}
           <Line></Line>
