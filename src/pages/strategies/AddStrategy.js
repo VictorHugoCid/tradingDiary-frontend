@@ -19,7 +19,7 @@ export default function AddStrategy() {
 
   async function submit(event) {
     event.preventDefault();
-    // console.log(form)
+    console.log(form)
 
     try {
       const strategy = strategyApi.postStrategy(token, form);
@@ -68,7 +68,7 @@ export default function AddStrategy() {
             </Box2>
             
 
-            <Button type="submit" fullWidth >
+            <Button type="submit" fullWidth onClick={()=>{}}>
               Enviar
             </Button>
           </Form>

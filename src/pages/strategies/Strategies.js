@@ -1,29 +1,47 @@
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import StrategyUnit from '../../components/StrategyUnit/StrategyUnit';
 import GlobalContext from '../../contexts/globalContext';
 import AddTrade from '../trades/AddTrade';
 import AddStrategy from './AddStrategy';
+import * as strategiesApi from '../../services/strategiesApi'
+import useToken from "../../hooks/useToken";
 
 export default function Strategies() {
   const { setShowHeader, setShowFooter, showAddTrade, showAddStrategy, setShowAddStrategy } = useContext(GlobalContext);
   setShowHeader(true);
   setShowFooter(true);
 
-  const strategies = [
-    {
-      name: 'OCOI',
-      description: 'ombro-cabeça-ombro, entrada de compra no rompimento com apoio das médias de 9 e 20',
-    },
-    {
-      name: 'Pivot',
-      description: 'Entrada de compra ou de venda após correção em 50% ou 61.8%',
-    },
-    {
-      name: 'Pivot',
-      description: 'Entrada de compra ou de venda após correção em 50% ou 61.8%',
-    },
+  const [strategies, setStrategies] = useState([])
+
+  const bolinha = [
+    // {
+    //   name: 'OCOI',
+    //   description: 'ombro-cabeça-ombro, entrada de compra no rompimento com apoio das médias de 9 e 20',
+    // },
+    // {
+    //   name: 'Pivot',
+    //   description: 'Entrada de compra ou de venda após correção em 50% ou 61.8%',
+    // },
+    // {
+    //   name: 'Pivot',
+    //   description: 'Entrada de compra ou de venda após correção em 50% ou 61.8%',
+    // },
   ];
+
+  const token = useToken()
+
+  useEffect(() => {
+    const response = strategiesApi.getStrategies(token)
+      .then((res) => {
+        setStrategies(res)
+        console.log("🚀🚀🚀 ~ file: Strategies.js:39 ~ .then ~ res.data", res)
+
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  })
 
   function handleAddStrategy() {
 
@@ -34,9 +52,9 @@ export default function Strategies() {
     <StrategiesWrapper>
       {console.log(showAddStrategy)}
       {showAddStrategy ? <AddStrategy /> : <></>}
-      
+
       <Line></Line>
-      <Button onClick={()=> handleAddStrategy()}>Adicionar estratégia</Button>
+      <Button onClick={() => handleAddStrategy()}>Adicionar estratégia</Button>
       {showAddTrade ? <AddTrade /> : <></>}
       {strategies.map((value, index) => {
         return <StrategyUnit key={index} strategy={value} />;
