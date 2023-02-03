@@ -4,9 +4,9 @@ import styled from 'styled-components';
 import GlobalContext from '../../contexts/globalContext';
 import useToken from '../../hooks/useToken';
 
-import * as strategyApi from '../../services/strategyApi';
+import * as strategyApi from '../../services/strategiesApi';
 
-export default function StrategyTrade() {
+export default function AddStrategy() {
   const { setShowAddStrategy } = useContext(GlobalContext);
 
   // NAO SEI SE PRECISA DO TOKEN
@@ -22,8 +22,8 @@ export default function StrategyTrade() {
     // console.log(form)
 
     try {
-      const trade = strategyApi.postTrade(token, form);
-      toast('Trade adicionado');
+      const strategy = strategyApi.postStrategy(token, form);
+      toast('Estratégia adicionada adicionado');
     } catch (err) {
       toast('Deu ruim aí!');
     }
@@ -35,21 +35,28 @@ export default function StrategyTrade() {
   }
 
   return (
-    <AddTradeWrapper>
+    <AddStrategyWrapper>
       <Veil onClick={() => setShowAddStrategy(false)}></Veil>
       <Box >
           <Form onSubmit={submit}>
+          <Box2>
+              <p>Nome da estratégia</p>
+
             <Input
               type="text"
-              placeholder="Nomde da estratégia"
+              placeholder="Nome da estratégia"
               name="name"
               fullWidth
               value={form.name}
               onChange={(e) => handleForm(e)}
               required
-              // disabled={loadingSignUp}
             />
-            <Input
+            </Box2>
+
+            <Box2>
+              <p>Descrição</p>
+
+            <Description
               type="text"
               placeholder="Descrição"
               name="description"
@@ -57,15 +64,16 @@ export default function StrategyTrade() {
               value={form.description}
               onChange={(e) => handleForm(e)}
               required
-              // disabled={loadingSignUp}
             />
+            </Box2>
+            
 
-            <Button type="submit" fullWidth /* disabled={loadingSignUp} */>
+            <Button type="submit" fullWidth >
               Enviar
             </Button>
           </Form>
       </Box>
-    </AddTradeWrapper>
+    </AddStrategyWrapper>
   );
 }
 
@@ -81,7 +89,7 @@ const Veil = styled.div`
   opacity: 0.5;
 `;
 
-const AddTradeWrapper = styled.div`
+const AddStrategyWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -117,21 +125,27 @@ const Form = styled.form`
   justify-content:space-evenly;
 
 `;
-// const Test = styled.div`
-//   height: 100%;
-//   background-color: green;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-
-// `;
 
 const Input = styled.input`
   height: 40px;
   max-width: 300px;
   min-width: 150px;
-  /* margin-bottom: 10px; */
+  font-size: 16px;
+
+  :focus{
+    border: 0.5px solid red;
+  }
+  
+`;
+
+const Description = styled.textarea`
+  height: 140px;
+  min-width: 150px;
+  width: 300px;
+  min-height: 50px;
+  padding: 5px;
+  font-size: 14px;
+ 
 `;
 
 const Button = styled.button`
@@ -145,3 +159,22 @@ const Button = styled.button`
 
   cursor: pointer;
 `;
+
+const Box2 = styled.div`
+  height: auto;
+  min-width: 150px;
+  /* background-color: red; */
+
+  background-color: #131820;
+  color: grey;
+
+  p{
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #f6f6f6;
+  }
+
+  cursor: pointer;
+`;
+
+

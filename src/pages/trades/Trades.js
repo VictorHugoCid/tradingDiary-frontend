@@ -25,26 +25,7 @@ export default function Trades() {
       alert('Selecione as datas');
       return;
     }
-    // função de requisição
 
-    // const trade = {
-    //   amount: 2,
-    //   buyOrSell: "sell",
-    //   createdAt: "2023-02-02T19:16:13.010Z",
-    //   day: "2023-01-03T00:00:00.000Z",
-    //   entryPrice: 5409,
-    //   entryTime: "09:22",
-    //   exitPrice: 5395,
-    //   exitTime: "09:29",
-    //   id: 13,
-    //   isGain: true,
-    //   points: 14,
-    //   stock: "wdo",
-    //   strategyId: 1,
-    //   updatedAt: "2023-02-02T19:16:13.010Z",
-    //   userId: 1,
-    //   value: 280,
-    // }
     const body = {
       startDate: dayjs(dateTest.startDate).format('YYYY/MM/DD'),
       endDate: dayjs(dateTest.endDate).format('YYYY/MM/DD')
@@ -59,8 +40,6 @@ export default function Trades() {
     }
     setMandou(true);
   }
-
-  const array = []
 
   return (
     <TradesWrapper>
