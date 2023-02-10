@@ -4,9 +4,7 @@ import GlobalContext from '../../contexts/globalContext';
 import { useContext } from 'react';
 
 export default function Header() {
-  const { menuIsOpen, setMenuIsOpen, showHeader } = useContext(GlobalContext);
-
-  if(!showHeader)return <></>;
+  const { menuIsOpen, setMenuIsOpen } = useContext(GlobalContext);
   
   return (
     <>

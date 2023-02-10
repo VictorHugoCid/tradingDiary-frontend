@@ -9,10 +9,8 @@ import { useContext } from 'react';
 import GlobalContext from '../../contexts/globalContext';
 
 export default function Footer() {
-  const { showFooter, showAddTrade, setShowAddTrade } = useContext(GlobalContext);
+  const { showAddTrade, setShowAddTrade } = useContext(GlobalContext);
   const navigate = useNavigate();
-
-  if (!showFooter) return <></>;
 
   return (
     <FooterWrapper>

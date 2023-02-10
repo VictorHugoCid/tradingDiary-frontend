@@ -2,8 +2,8 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import GlobalStyle from './styles/globalStyle';
 import GlobalContext from './contexts/globalContext';
-import HeaderNFooterContext from './contexts/headerNfooterContex';
-import styled from 'styled-components';
+// import HeaderNFooterContext from './contexts/headerNfooterContex';
+// import styled from 'styled-components';
 
 import SignIn from './pages/SignIn/SignIn.js';
 import Home from './pages/home/Home';
@@ -15,6 +15,7 @@ import Menu from './components/Menu/Menu';
 import { useState } from 'react';
 import { UserProvider } from './contexts/UserContext';
 import SignUp from './pages/Signup/Signup';
+import MainLayout from "./components/MainLayout.js/MainLayout";
 
 function App() {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
@@ -57,9 +58,8 @@ function App() {
         >
           <BrowserRouter>
             {menuIsOpen ? <Menu /> : <></>}
-            <Header />
+            {/* <Header /> */}
 
-            {/* <HeaderNFooterContext.Provider value={{ header, setHeader, footer, setFooter }}> */}
             <Routes>
               <Route path="/sign-in" element={<SignIn />} />
               <Route path="/sign-up" element={<SignUp />} />
@@ -67,9 +67,8 @@ function App() {
               <Route path="/trades" element={<Trades />} />
               <Route path="/strategies" element={<Strategies />} />
             </Routes>
-            {/* </HeaderNFooterContext.Provider> */}
 
-            <Footer />
+            {/* <Footer /> */}
           </BrowserRouter>
         </GlobalContext.Provider>
       </UserProvider>

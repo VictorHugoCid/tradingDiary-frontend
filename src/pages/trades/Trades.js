@@ -8,19 +8,17 @@ import GlobalContext from '../../contexts/globalContext';
 import AddTrade from './AddTrade';
 import * as tradeApi from '../../services/tradeApi';
 import useToken from '../../hooks/useToken';
+import MainLayout from '../../components/MainLayout.js/MainLayout';
 
 export default function Trades() {
-  const { dateTest, setDateTest, setShowHeader, setShowFooter, showAddTrade } = useContext(GlobalContext);
-  setShowHeader(true);
-  setShowFooter(true);
+  const { dateTest, setDateTest, showAddTrade } = useContext(GlobalContext);
 
   const token = useToken();
 
   const [mandou, setMandou] = useState(false);
-  const [trades, setTrades] = useState([])
+  const [trades, setTrades] = useState([]);
 
   async function handleFiltrar() {
-
     if (dateTest.startDate.length === 0 || dateTest.endDate.length === 0) {
       alert('Selecione as datas');
       return;
@@ -28,12 +26,12 @@ export default function Trades() {
 
     const body = {
       startDate: dayjs(dateTest.startDate).format('YYYY/MM/DD'),
-      endDate: dayjs(dateTest.endDate).format('YYYY/MM/DD')
-    }
+      endDate: dayjs(dateTest.endDate).format('YYYY/MM/DD'),
+    };
     try {
       const tradesBack = await tradeApi.getTrades(token, body);
-      console.log("🚀🚀🚀 ~ file: Trades.js:35 ~ handleFiltrar ~ tradesBack", tradesBack)
-      setTrades(tradesBack)
+      console.log('🚀🚀🚀 ~ file: Trades.js:35 ~ handleFiltrar ~ tradesBack', tradesBack);
+      setTrades(tradesBack);
       toast('Trade adicionado');
     } catch (err) {
       toast('Deu ruim aí!');
@@ -42,23 +40,25 @@ export default function Trades() {
   }
 
   return (
-    <TradesWrapper>
-      {showAddTrade ? <AddTrade /> : <></>}
-      <Line></Line>
-      <NativePickers />
+    <MainLayout>
+      <TradesWrapper>
+        {showAddTrade ? <AddTrade /> : <></>}
+        <Line></Line>
+        <NativePickers />
 
-      <Button onClick={() => handleFiltrar()}>Filtrar</Button>
-      {trades.length !== 0 ? (
-        <>
-          {trades.map((value, index) => {
-            return <TradeUnit key={index} trade={value} />;
-          })}
-          <Line></Line>
-        </>
-      ) : (
-        <Warning>Você precisa selecionar as datas</Warning>
-      )}
-    </TradesWrapper>
+        <Button onClick={() => handleFiltrar()}>Filtrar</Button>
+        {trades.length !== 0 ? (
+          <>
+            {trades.map((value, index) => {
+              return <TradeUnit key={index} trade={value} />;
+            })}
+            <Line></Line>
+          </>
+        ) : (
+          <Warning>Você precisa selecionar as datas</Warning>
+        )}
+      </TradesWrapper>
+    </MainLayout>
   );
 }
 

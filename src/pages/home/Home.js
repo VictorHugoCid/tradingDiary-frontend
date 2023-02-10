@@ -6,15 +6,15 @@ import Resumo from '../../components/Resumo/Resumo';
 import { Chart } from 'react-google-charts';
 import { useContext, useEffect } from 'react';
 import GlobalContext from '../../contexts/globalContext';
-import HeaderNFooterContext from '../../contexts/headerNfooterContex';
-import ShowHeaderNFooter from '../../utils/showHeaderNFooter';
+// import HeaderNFooterContext from '../../contexts/headerNfooterContex';
+// import ShowHeaderNFooter from '../../utils/showHeaderNFooter';
 import AddTrade from '../trades/AddTrade';
-import Header from '../../components/Header/Header';
+import MainLayout from "../../components/MainLayout.js/MainLayout";
+// import Header from '../../components/Header/Header';
 
 export default function Home() {
-  const { setShowHeader, setShowFooter, showAddTrade } = useContext(GlobalContext);
-  setShowHeader(true);
-  setShowFooter(true);
+  const { showAddTrade } = useContext(GlobalContext);
+
 
   const data = [
     ['Year', 'Sales'],
@@ -42,7 +42,7 @@ export default function Home() {
   };
 
   return (
-    <>
+    <MainLayout>
       {showAddTrade ? <AddTrade /> : <></>}
       <HomeWrapper>
         <Resumo />
@@ -57,7 +57,7 @@ export default function Home() {
           />
         </GraphWrapper> */}
       </HomeWrapper>
-    </>
+    </MainLayout>
   );
 }
 

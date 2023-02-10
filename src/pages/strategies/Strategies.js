@@ -6,28 +6,13 @@ import AddTrade from '../trades/AddTrade';
 import AddStrategy from './AddStrategy';
 import * as strategiesApi from '../../services/strategiesApi'
 import useToken from "../../hooks/useToken";
+import StrategyUnitGPT from "../../components/StrategyUnit/StrategyUnitGPT";
+import MainLayout from "../../components/MainLayout.js/MainLayout";
 
 export default function Strategies() {
-  const { setShowHeader, setShowFooter, showAddTrade, showAddStrategy, setShowAddStrategy } = useContext(GlobalContext);
-  setShowHeader(true);
-  setShowFooter(true);
+  const { showAddTrade, showAddStrategy, setShowAddStrategy } = useContext(GlobalContext);
 
   const [strategies, setStrategies] = useState([])
-
-  const bolinha = [
-    // {
-    //   name: 'OCOI',
-    //   description: 'ombro-cabeça-ombro, entrada de compra no rompimento com apoio das médias de 9 e 20',
-    // },
-    // {
-    //   name: 'Pivot',
-    //   description: 'Entrada de compra ou de venda após correção em 50% ou 61.8%',
-    // },
-    // {
-    //   name: 'Pivot',
-    //   description: 'Entrada de compra ou de venda após correção em 50% ou 61.8%',
-    // },
-  ];
 
   const token = useToken()
 
@@ -41,7 +26,7 @@ export default function Strategies() {
       .catch((error) => {
         console.log(error)
       })
-  })
+  }, [])
 
   function handleAddStrategy() {
 
@@ -49,6 +34,7 @@ export default function Strategies() {
   }
 
   return (
+    <MainLayout>
     <StrategiesWrapper>
       {console.log(showAddStrategy)}
       {showAddStrategy ? <AddStrategy /> : <></>}
@@ -57,11 +43,12 @@ export default function Strategies() {
       <Button onClick={() => handleAddStrategy()}>Adicionar estratégia</Button>
       {showAddTrade ? <AddTrade /> : <></>}
       {strategies.map((value, index) => {
-        return <StrategyUnit key={index} strategy={value} />;
+        return <StrategyUnitGPT key={index} strategy={value} />;
       })}
 
       <Line></Line>
     </StrategiesWrapper>
+    </MainLayout>
   );
 }
 
