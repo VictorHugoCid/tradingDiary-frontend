@@ -19,18 +19,13 @@ import MainLayout from "./components/MainLayout.js/MainLayout";
 
 function App() {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
-  // const [header, setHeader] = useState(true);
-  // const [noHeader, setNoHeader] = useState(false);
-  // const [footer, setFooter] = useState(true);
-  // const [noFooter, setNoFooter] = useState(false);
 
-  const [showFooter, setShowFooter] = useState(false);
-  const [showHeader, setShowHeader] = useState(false);
   const [showAddTrade, setShowAddTrade] = useState(false);
   const [showAddStrategy, setShowAddStrategy] = useState(false);
 
-  const [date, setDate] = useState(null);
-  const [dateTest, setDateTest] = useState({
+  const [ render, setRender] = useState(false)
+
+  const [date, setDate] = useState({
     startDate: '',
     endDate: '',
   });
@@ -44,16 +39,13 @@ function App() {
             setMenuIsOpen,
             date,
             setDate,
-            dateTest,
-            setDateTest,
-            showFooter,
-            setShowFooter,
-            showHeader,
-            setShowHeader,
+            date,
+            setDate,
             showAddTrade,
             setShowAddTrade,
             showAddStrategy,
             setShowAddStrategy,
+            render, setRender
           }}
         >
           <BrowserRouter>

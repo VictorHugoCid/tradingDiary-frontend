@@ -132,6 +132,10 @@ const Input = styled.input`
   min-width: 150px;
   font-size: 16px;
 
+  ::placeholder {
+    font-size: 15px;
+  }
+
   :focus{
     border: 0.5px solid red;
   }
@@ -141,7 +145,7 @@ const Input = styled.input`
 const Description = styled.textarea`
   height: 140px;
   min-width: 150px;
-  width: 300px;
+  width: 400px;
   min-height: 50px;
   padding: 5px;
   font-size: 14px;

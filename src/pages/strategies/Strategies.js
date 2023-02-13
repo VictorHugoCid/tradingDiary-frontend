@@ -4,50 +4,49 @@ import StrategyUnit from '../../components/StrategyUnit/StrategyUnit';
 import GlobalContext from '../../contexts/globalContext';
 import AddTrade from '../trades/AddTrade';
 import AddStrategy from './AddStrategy';
-import * as strategiesApi from '../../services/strategiesApi'
-import useToken from "../../hooks/useToken";
-import StrategyUnitGPT from "../../components/StrategyUnit/StrategyUnitGPT";
-import MainLayout from "../../components/MainLayout.js/MainLayout";
+import * as strategiesApi from '../../services/strategiesApi';
+import useToken from '../../hooks/useToken';
+import StrategyUnitGPT from '../../components/StrategyUnit/StrategyUnitGPT';
+import MainLayout from '../../components/MainLayout.js/MainLayout';
 
 export default function Strategies() {
-  const { showAddTrade, showAddStrategy, setShowAddStrategy } = useContext(GlobalContext);
+  const { showAddTrade, showAddStrategy, setShowAddStrategy, render } = useContext(GlobalContext);
 
-  const [strategies, setStrategies] = useState([])
+  const [strategies, setStrategies] = useState([]);
 
-  const token = useToken()
+  const token = useToken();
 
   useEffect(() => {
-    const response = strategiesApi.getStrategies(token)
+    const response = strategiesApi
+      .getStrategies(token)
       .then((res) => {
-        setStrategies(res)
-        console.log("🚀🚀🚀 ~ file: Strategies.js:39 ~ .then ~ res.data", res)
-
+        setStrategies(res);
+        // console.log('🚀🚀🚀 ~ file: Strategies.js:39 ~ .then ~ res.data', res);
       })
       .catch((error) => {
-        console.log(error)
-      })
-  }, [])
+        console.log(error);
+      });
+  }, [render]);
 
   function handleAddStrategy() {
-
     setShowAddStrategy(true);
   }
 
   return (
     <MainLayout>
-    <StrategiesWrapper>
-      {console.log(showAddStrategy)}
-      {showAddStrategy ? <AddStrategy /> : <></>}
+      <StrategiesWrapper>
+        {/* {console.log(showAddStrategy)} */}
+        {showAddStrategy ? <AddStrategy /> : <></>}
 
-      <Line></Line>
-      <Button onClick={() => handleAddStrategy()}>Adicionar estratégia</Button>
-      {showAddTrade ? <AddTrade /> : <></>}
-      {strategies.map((value, index) => {
-        return <StrategyUnitGPT key={index} strategy={value} />;
-      })}
+        <Line></Line>
+        <Button onClick={() => handleAddStrategy()}>Adicionar estratégia</Button>
+        {showAddTrade ? <AddTrade /> : <></>}
+        {strategies.map((value, index) => {
+          return <StrategyUnitGPT key={index} strategy={value} />;
+        })}
 
-      <Line></Line>
-    </StrategiesWrapper>
+        <Line></Line>
+      </StrategiesWrapper>
     </MainLayout>
   );
 }

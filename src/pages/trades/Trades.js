@@ -11,7 +11,7 @@ import useToken from '../../hooks/useToken';
 import MainLayout from '../../components/MainLayout.js/MainLayout';
 
 export default function Trades() {
-  const { dateTest, setDateTest, showAddTrade } = useContext(GlobalContext);
+  const { date, setDate, showAddTrade } = useContext(GlobalContext);
 
   const token = useToken();
 
@@ -19,14 +19,14 @@ export default function Trades() {
   const [trades, setTrades] = useState([]);
 
   async function handleFiltrar() {
-    if (dateTest.startDate.length === 0 || dateTest.endDate.length === 0) {
+    if (date.startDate.length === 0 || date.endDate.length === 0) {
       alert('Selecione as datas');
       return;
     }
 
     const body = {
-      startDate: dayjs(dateTest.startDate).format('YYYY/MM/DD'),
-      endDate: dayjs(dateTest.endDate).format('YYYY/MM/DD'),
+      startDate: dayjs(date.startDate).format('YYYY/MM/DD'),
+      endDate: dayjs(date.endDate).format('YYYY/MM/DD'),
     };
     try {
       const tradesBack = await tradeApi.getTrades(token, body);
