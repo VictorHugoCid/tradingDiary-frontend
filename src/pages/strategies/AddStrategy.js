@@ -17,7 +17,7 @@ export default function AddStrategy() {
     description: '',
   });
 
-  async function submit(event) {
+  async function saveStrategy(event) {
     event.preventDefault();
     console.log(form)
 
@@ -38,11 +38,11 @@ export default function AddStrategy() {
     <AddStrategyWrapper>
       <Veil onClick={() => setShowAddStrategy(false)}></Veil>
       <Box >
-          <Form onSubmit={submit}>
+          <Form onSubmit={saveStrategy}>
           <Box2>
               <p>Nome da estratégia</p>
 
-            <Input
+            <Title
               type="text"
               placeholder="Nome da estratégia"
               name="name"
@@ -126,7 +126,7 @@ const Form = styled.form`
 
 `;
 
-const Input = styled.input`
+const Title = styled.input`
   height: 40px;
   max-width: 300px;
   min-width: 150px;

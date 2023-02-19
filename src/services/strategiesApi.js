@@ -18,8 +18,12 @@ export async function postStrategy(token, body) {
   return response.data;
 }
 
-export async function updateStrategy(token) {
-  const response = await api.put('/strategies', { token });
+export async function updateStrategy(form, token) {
+  const response = await api.put('/strategies', form,{
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
   return response.data;
 }
 

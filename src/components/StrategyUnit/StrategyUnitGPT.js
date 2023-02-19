@@ -8,30 +8,56 @@ import useToken from '../../hooks/useToken';
 export default function StrategyUnitGPT(props) {
   const [isEditing, setIsEditing] = useState(false);
   const [isConfirming, setIsConfirming] = useState(false);
+  const [form, setForm] = useState({
+    name: '',
+    description: '',
+  });
 
   const { render, setRender } = useContext(GlobalContext);
-  const token = useToken()
+  const token = useToken();
   const { strategy } = props;
-  // console.clear();
-  function handleEdit() {
+
+  function handleEdit(e) {
+    setForm({
+      id:strategy.id,
+      name: strategy.name,
+      description: strategy.description,
+    });
+
     if (!isEditing) return setIsEditing(true);
+
     setIsEditing(false);
   }
 
-  function saveStrategy() {
+  async function updateStrategy(e) {
+    e.preventDefault();
+
     // enviar edição PUT
-    setIsEditing(false);
+    try {
+      await strategiesApi.updateStrategy(form, token);
+      setIsEditing(false);
+    } catch (error) {
+      console.log(error.response.data.message);
+      //criar um popup(talvez toastfy) avisando o erro
+    }
+    setRender(!render);
   }
 
   async function deleteStrategy(id) {
     try {
-      await strategiesApi.deleteStrategy(id)
+      await strategiesApi.deleteStrategy(id);
+      setIsConfirming(false);
     } catch (error) {
-      console.log(error.response.data)
+      console.log(error.response.data);
       //criar um popup(talvez toastfy) avisando o erro
     }
 
     setRender(!render);
+  }
+
+  function handleForm(e) {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    return;
   }
 
   return (
@@ -39,20 +65,29 @@ export default function StrategyUnitGPT(props) {
       <Top>
         <Name>{strategy.name}</Name>
         <IconsWrapper>
-          <FaEdit onClick={() => handleEdit()} />
+          <FaEdit onClick={(e) => handleEdit(e)} />
           <FaTrashAlt onClick={() => setIsConfirming(true)} />
         </IconsWrapper>
       </Top>
       <Content>
         {isEditing ? (
-          <EditWrapper>
-            <EditTitle>
-              <input type="text" defaultValue={strategy.name} />
-            </EditTitle>
-            <EditDescription>
-              <textarea rows={5} defaultValue={strategy.description} />
-            </EditDescription>
-            <SaveButton onClick={() => saveStrategy()}>Salvar</SaveButton>
+          <EditWrapper onSubmit={updateStrategy}>
+            <EditTitle type="text" name="name" value={form.name} onChange={(e) => handleForm(e)} required />
+
+            <EditDescription
+              rows={5}
+              name="description"
+              value={form.description}
+              onChange={(e) => handleForm(e)}
+              required
+            />
+
+            <ButtonsEditWrapper>
+              <SaveButton type="submit" onClick={(e) => updateStrategy(e)}>
+                Salvar
+              </SaveButton>
+              <CancelEditButton /* type="submit" */ onClick={() => setIsEditing(false)}>Cancelar</CancelEditButton>
+            </ButtonsEditWrapper>
           </EditWrapper>
         ) : (
           <Title>
@@ -143,7 +178,7 @@ const Title = styled.div`
   }
 `;
 
-const EditWrapper = styled.div`
+const EditWrapper = styled.form`
   width: 100%;
   height: auto;
   display: flex;
@@ -151,57 +186,81 @@ const EditWrapper = styled.div`
   align-items: flex-start;
 `;
 
-const EditTitle = styled.div`
+const EditTitle = styled.textarea`
+  /* //talvez mude de volta pra input */
+
+  /* width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; */
+
+  width: 50%;
+  max-width: 80%;
+  height: 50px;
+  padding: 10px;
+  font-size: 20px;
+  border-radius: 10px;
+  border: none;
+  background-color: #fff;
+  color: #333;
+  margin-bottom: 20px;
+
+  position: absolute;
+  top: 10px;
+
+  /* :focus {
+    border: 0.5px solid red;
+    outline-offset: 1px;
+  } */
+`;
+
+const EditDescription = styled.textarea`
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
 
-  & > input {
-    width: 100%;
-    height: 50px;
-    padding: 10px;
-    font-size: 20px;
-    border-radius: 10px;
-    border: none;
-    background-color: #fff;
-    color: #333;
-    margin-bottom: 20px;
-
-    :focus {
-      border: 0.5px solid red;
-      outline-offset: 1px;
-    }
-  }
-`;
-
-const EditDescription = styled.div`
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-
-  & > textarea {
-    width: 100%;
-    padding: 10px;
-    font-size: 15px;
-    border-radius: 10px;
-    border: none;
-    background-color: #fff;
-    color: #333;
-    margin-bottom: 20px;
-  }
+  padding: 10px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: none;
+  background-color: #fff;
+  color: #333;
+  margin-bottom: 20px;
 `;
+
+const ButtonsEditWrapper = styled.div``;
 
 const SaveButton = styled.button`
   width: 100px;
   height: 50px;
+  margin-right: 25px;
   border-radius: 10px;
   border: none;
   background-color: #28a745;
   color: #fff;
-  font-size: 1.2rem;
+  font-size: 20px;
   cursor: pointer;
+
+  :hover {
+    opacity: 0.5;
+  }
+`;
+
+const CancelEditButton = styled.button`
+  width: 100px;
+  height: 50px;
+  border-radius: 10px;
+  border: none;
+  background-color: #e9e9e9;
+  color: #000;
+  font-size: 20px;
+  cursor: pointer;
+
+  :hover {
+    opacity: 0.5;
+  }
 `;
 
 const ConfirmWrapper = styled.div`
@@ -216,6 +275,10 @@ const ConfirmWrapper = styled.div`
   position: absolute;
   top: 0;
   left: 0;
+
+  p {
+    font-size: 25px;
+  }
 `;
 
 const ButtonsWrapper = styled.div`
