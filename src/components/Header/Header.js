@@ -5,6 +5,7 @@ import { useContext } from 'react';
 
 export default function Header() {
   const { menuIsOpen, setMenuIsOpen } = useContext(GlobalContext);
+  
   return (
     <>
       <HeaderWrapper>
@@ -28,6 +29,7 @@ const HeaderWrapper = styled.div`
   color: #f6f6f6;
 
   position: fixed;
+  z-index: 2;
   top: 0;
 `;
 

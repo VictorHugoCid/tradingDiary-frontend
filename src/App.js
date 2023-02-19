@@ -2,9 +2,10 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import GlobalStyle from './styles/globalStyle';
 import GlobalContext from './contexts/globalContext';
-import styled from 'styled-components';
+// import HeaderNFooterContext from './contexts/headerNfooterContex';
+// import styled from 'styled-components';
 
-import SignIn from './pages/SignIn/index.js';
+import SignIn from './pages/SignIn/SignIn.js';
 import Home from './pages/home/Home';
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
@@ -12,63 +13,83 @@ import Trades from './pages/trades/Trades';
 import Strategies from './pages/strategies/Strategies';
 import Menu from './components/Menu/Menu';
 import { useState } from 'react';
+import { UserProvider } from './contexts/UserContext';
+import SignUp from './pages/Signup/Signup';
+import MainLayout from "./components/MainLayout.js/MainLayout";
 
 function App() {
   const [menuIsOpen, setMenuIsOpen] = useState(false);
-  const [date, setDate] = useState(null);
-  const [dateTest, setDateTest] = useState({
+
+  const [showAddTrade, setShowAddTrade] = useState(false);
+  const [showAddStrategy, setShowAddStrategy] = useState(false);
+
+  const [ render, setRender] = useState(false)
+
+  const [date, setDate] = useState({
     startDate: '',
-    endDate: ''
+    endDate: '',
   });
   return (
     <>
       <GlobalStyle />
-      <GlobalContext.Provider value={{ menuIsOpen, setMenuIsOpen, date, setDate, dateTest, setDateTest }}>
-        <BrowserRouter>
-          <HeaderWrapper>
+      <UserProvider>
+        <GlobalContext.Provider
+          value={{
+            menuIsOpen,
+            setMenuIsOpen,
+            date,
+            setDate,
+            date,
+            setDate,
+            showAddTrade,
+            setShowAddTrade,
+            showAddStrategy,
+            setShowAddStrategy,
+            render, setRender
+          }}
+        >
+          <BrowserRouter>
             {menuIsOpen ? <Menu /> : <></>}
+            {/* <Header /> */}
 
-            <Header />
-          </HeaderWrapper>
+            <Routes>
+              <Route path="/sign-in" element={<SignIn />} />
+              <Route path="/sign-up" element={<SignUp />} />
+              <Route path="/home" element={<Home />} />
+              <Route path="/trades" element={<Trades />} />
+              <Route path="/strategies" element={<Strategies />} />
+            </Routes>
 
-          <Routes>
-            <Route path="/sign-in" element={<SignIn />} />
-            <Route path="/" element={<Home />} />
-            <Route path="/trades" element={<Trades />} />
-            <Route path="/strategies" element={<Strategies />} />
-          </Routes>
-
-          <FooterWrapper>
-            <Footer />
-          </FooterWrapper>
-        </BrowserRouter>
-      </GlobalContext.Provider>
+            {/* <Footer /> */}
+          </BrowserRouter>
+        </GlobalContext.Provider>
+      </UserProvider>
     </>
   );
 }
 
-const HeaderWrapper = styled.div`
-  width: 100%;
-  height: 100px;
+// const HeaderWrapper = styled.div`
+//   width: 100%;
+//   height: 100px;
 
-  background-color: #131820;
+//   background-color: #131820;
 
-  position: fixed;
-  top: 0;
-  z-index: 1;
-`;
+//   position: fixed;
+//   top: 0;
+//   z-index: 1;
+// `;
 
-const FooterWrapper = styled.div`
-  width: 100%;
-  min-height: 100px;
-  background: linear-gradient(106.85deg, rgba(32, 38, 47, 0.8) -3.52%, rgba(94, 94, 94, 0.184) 106.68%);
-  box-shadow: 0px -40px 100px #171717;
-  backdrop-filter: blur(50px);
+// const FooterWrapper = styled.div`
+//   width: 100%;
+//   min-height: 100px;
+//   background: #131820;
+//   /* box-shadow: 0px -2px 200px #fff;
+//   backdrop-filter: blur(0px); */
 
-  position: fixed;
-  bottom: 0;
+//   position: fixed;
+//   bottom: 0;
 
-  z-index: 0;
-`;
+//   z-index: 1;
+// `;
 
 export default App;

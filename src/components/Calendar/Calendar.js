@@ -14,7 +14,6 @@ export default function NativePickers() {
   // const date1 = dayjs(new Date()).format('YYYY-MM-DD').toString();
 
   const { date, setDate } = useContext(GlobalContext);
-  const { dateTest, setDateTest } = useContext(GlobalContext);
 
   const [render, setRender] = useState(false);
   useEffect(() => {}, [render]);
@@ -31,10 +30,10 @@ export default function NativePickers() {
           <BeginDate>
             <DatePicker
               label="Início"
-              value={dateTest.startDate}
+              value={date.startDate}
               sx={{ '.MuiInputBase-input': { backgroundColor: 'red' } }}
               onChange={(newDate) => {
-                setDateTest({ ...dateTest, startDate: newDate });
+                setDate({ ...date, startDate: newDate });
                 setRender(!render);
               }}
               renderInput={(params) => <TextField {...params} />}
@@ -46,9 +45,9 @@ export default function NativePickers() {
               disableFuture
               label="Fim"
               views={['year', 'month', 'day']}
-              value={dateTest.endDate}
+              value={date.endDate}
               onChange={(newDate) => {
-                setDateTest({ ...dateTest, endDate: newDate });
+                setDate({ ...date, endDate: newDate });
                 setRender(!render);
               }}
               renderInput={(params) => <TextField {...params} />}

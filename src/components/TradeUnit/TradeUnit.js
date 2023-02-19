@@ -1,30 +1,57 @@
+import dayjs from 'dayjs';
 import styled from 'styled-components';
 
 export default function TradeUnit(props) {
-  // console.log(props.trade);
+  // const trade = {
+  //   amount: 2,
+  //   buyOrSell: "sell",
+  //   createdAt: "2023-02-02T19:16:13.010Z",
+  //   day: "2023-01-03T00:00:00.000Z",
+  //   entryPrice: 5409,
+  //   entryTime: "09:22",
+  //   exitPrice: 5395,
+  //   exitTime: "09:29",
+  //   id: 13,
+  //   isGain: true,
+  //   points: 14,
+  //   stock: "wdo",
+  //   strategyId: 1,
+  //   updatedAt: "2023-02-02T19:16:13.010Z",
+  //   userId: 1,
+  //   value: 280,
+  // }
+  console.log(props.trade);
   return (
     <TradeWrapper>
       <Top>
-        <BuyOrSell props={props.trade.buyOrSell}>{props.trade.buyOrSell}</BuyOrSell>
-        <DateNTime>{props.trade.time}</DateNTime>
+        <BuyOrSell buyOrSell={props.trade.buyOrSell}>{props.trade.buyOrSell}</BuyOrSell>
+        <DateNTime>{dayjs(props.trade.day).format('DD/MM/YYYY')}</DateNTime>
       </Top>
       <Content>
-        <Title props={props.trade.gainOrLoss}>
+        <Title isGain={props.trade.isGain}>
           <div>
             <p>{props.trade.stock}</p>
-            <p>{props.trade.amount} {props.trade.amount >1 ? 'contratos' : 'contrato'}</p>
+            <p>
+              {props.trade.amount} {props.trade.amount > 1 ? 'contratos' : 'contrato'}
+            </p>
           </div>
 
           <h1>{props.trade.points} pontos</h1>
         </Title>
         <Details>
-          <div>{props.trade.entryPrice}</div>
-          <div>{props.trade.exitPrice}</div>
+          <div>
+            <p>{props.trade.entryPrice}</p>
+            <p>{props.trade.entryTime}</p>
+          </div>
+          <div>
+            <p>{props.trade.exitPrice}</p>
+            <p>{props.trade.exitTime}</p>
+          </div>
         </Details>
       </Content>
       <Bottom>
-        <GainOrLoss props={props.trade.gainOrLoss}>{props.trade.gainOrLoss}</GainOrLoss>
-        <Value props={props.trade.gainOrLoss}> {props.trade.value}</Value>
+        <GainOrLoss isGain={props.trade.isGain}>{props.trade.gainOrLoss}</GainOrLoss>
+        <Value isGain={props.trade.isGain}> {props.trade.value}</Value>
       </Bottom>
     </TradeWrapper>
   );
@@ -35,7 +62,7 @@ const TradeWrapper = styled.div`
   height: ${(props) => (props.isOpen ? '300px' : '250px')};
 
   border-radius: 15px;
-  margin-top: 50px;
+  margin-bottom: 50px;
 
   display: flex;
   flex-direction: column;
@@ -63,7 +90,7 @@ const BuyOrSell = styled.div`
   width: 20px;
   height: 20px;
 
-  color: ${(props) => (props.props === 'Buy' ? '#5afe33' : '#ff0000')};
+  color: ${(props) => (props.buyOrSell.toLowerCase() === 'buy' ? '#5afe33' : '#ff0000')};
 `;
 const DateNTime = styled.div`
   height: 20px;
@@ -86,12 +113,22 @@ const Title = styled.div`
 
   h1 {
     font-size: 25px;
-    color: ${(props) => (props.props === 'gain' ? '#5afe33' : '#ff0000')};
+    color: ${(props) => (props.isGain ? '#5afe33' : '#ff0000')};
   }
 `;
 const Details = styled.div`
   display: flex;
   justify-content: space-evenly;
+
+  div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  p{
+    margin-bottom: 5px;
+  }
 `;
 
 const Bottom = styled.div`
@@ -107,9 +144,9 @@ const Bottom = styled.div`
 `;
 
 const GainOrLoss = styled.div`
-  color: ${(props) => (props.props === 'gain' ? '#5afe33' : '#ff0000')};
+  color: ${(props) => (props.isGain ? '#5afe33' : '#ff0000')};
 `;
 
 const Value = styled.div`
-  color: ${(props) => (props.props === 'gain' ? '#5afe33' : '#ff0000')};
+  color: ${(props) => (props.isGain ? '#5afe33' : '#ff0000')};
 `;

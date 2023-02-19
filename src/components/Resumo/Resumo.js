@@ -33,7 +33,7 @@ const ResumoWrapper = styled.div`
   height: ${(props) => (props.isOpen ? '300px' : '150px')};
 
   border-radius: 15px;
-  margin-top: 50px;
+  margin-top: 150px;
   padding: 15px;
 
   display: flex;

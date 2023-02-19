@@ -5,13 +5,17 @@ import { SlGraph } from 'react-icons/sl';
 import { BsFillBarChartFill } from 'react-icons/bs';
 import { BsFillPersonFill } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import GlobalContext from '../../contexts/globalContext';
 
 export default function Footer() {
+  const { showAddTrade, setShowAddTrade } = useContext(GlobalContext);
   const navigate = useNavigate();
+
   return (
-    <Wrapper>
+    <FooterWrapper>
       <AiFillHome
-        onClick={() => navigate('/')}
+        onClick={() => navigate('/home')}
         size="40px"
         style={{
           cursor: 'pointer',
@@ -38,22 +42,31 @@ export default function Footer() {
           cursor: 'pointer',
         }}
       />
-      <Circle onClick={() => navigate('/trades')}>
+      <Circle onClick={() => setShowAddTrade(true)}>
         <GoPlus size="50px" />
       </Circle>
-    </Wrapper>
+    </FooterWrapper>
   );
 }
 
-const Wrapper = styled.div`
+const FooterWrapper = styled.div`
+  
+  width: 100%;
+  min-height: 100px;
+
+  background-color: red;
+  background-color: #131820;
   color: white;
   display: flex;
   justify-content: space-around;
 
-  padding: 30px 0 0 0;
-  
 
-  position: relative;
+  padding: 30px 0 0 0;
+
+  position: fixed;
+  bottom: 0;
+
+  z-index: 1;
 `;
 
 const Circle = styled.div`

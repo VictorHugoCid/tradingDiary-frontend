@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components'
+import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyle = createGlobalStyle`
 html, body, div, span, applet, object, iframe,
@@ -51,9 +51,9 @@ a {
 	color: inherit;
 	text-decoration:none
   }
-button{
+/* button{
 	all:unset;
-}
+} */
 input{
 	color: #666666;
 }
@@ -71,6 +71,6 @@ body, input, button{
 * {
     box-sizing: border-box;
 } 
-`
+`;
 
 export default GlobalStyle;
